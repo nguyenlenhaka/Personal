@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thẻ Bảo Hành Điện Tử - Shop Bé Bỏng</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .field {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .field span {
+      flex: 1;
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .copy-btn {
+      margin-left: 10px;
+      padding: 6px 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .copy-btn:hover {
+      background-color: #388e3c;
+    }
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      background-color: #fff8e1;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 5px solid #ffc107;
+    }
+    /* Countdown pastel style */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      font-family: 'Courier New', monospace;
+    }
+    .time-box {
+      background: #e3f2fd; /* xanh pastel */
+      color: #1565c0;
+      padding: 10px 12px;
+      border-radius: 6px;
+      text-align: center;
+      min-width: 55px;
+      box-shadow: 0 0 5px rgba(21,101,192,0.2);
+    }
+    .time-box span {
+      display: block;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .time-label {
+      font-size: 11px;
+      color: #1565c0;
+      margin-top: 3px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Shop Bé Bỏng</h1>
+    <h2>THẺ BẢO HÀNH ĐIỆN TỬ</h2>
+
+    <p><strong>Sản phẩm:</strong> </p>
+    <h2>Tài khoản Zoom Cloud Meeting - 100 user</h2>
+
+    <div class="field">
+      <label><strong>User:</strong></label>
+      &nbsp;<span id="user">icavevn@gmail.com</span>
+      <button class="copy-btn" onclick="copyText('user')">Copy</button>
+    </div>
+
+    <div class="field">
+      <label><strong>Mật khẩu:</strong></label>
+      &nbsp;<span id="password">Egroup@2024</span>
+      <button class="copy-btn" onclick="copyText('password')">Copy</button>
+    </div>
+
+    <p><strong>Thời gian bảo hành:</strong> 1 năm kể từ ngày kích hoạt sản phẩm</p>
+    <p><strong>Ngày bắt đầu kích hoạt:</strong> 20/08/2025</p>
+
+    <div class="countdown" id="countdown">
+      <div class="time-box"><span id="days">0</span><div class="time-label">Ngày</div></div>
+      <div class="time-box"><span id="hours">0</span><div class="time-label">Giờ</div></div>
+      <div class="time-box"><span id="minutes">0</span><div class="time-label">Phút</div></div>
+      <div class="time-box"><span id="seconds">0</span><div class="time-label">Giây</div></div>
+    </div>
+
+    <div class="note">
+      <ul>
+        <li>Vui lòng không thay đổi Mật khẩu trong suốt thời gian sử dụng.</li>
+        <li>Trong trường hợp cần thay đổi mật khẩu, vui lòng gửi mật khẩu mới cho shop để refesh định kỳ gói dịch vụ.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => alert("Đã copy: " + text));
+    }
+
+    // Đồng hồ đếm ngược 1 năm từ ngày kích hoạt 20/08/2025
+    const activationDate = new Date("2025-08-20T00:00:00");
+    const endDate = new Date(activationDate);
+    endDate.setFullYear(endDate.getFullYear() + 1);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endDate - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "<h3 style='color:red;'>Hết thời hạn bảo hành</h3>";
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
